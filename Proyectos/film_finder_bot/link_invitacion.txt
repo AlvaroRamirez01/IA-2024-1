@@ -1,0 +1,8 @@
+Equipo: Los Artificiales
+Integrantes:
+-> Francisco Contreras Ibarra 
+-> Alvaro Ramírez López 
+-> José Ethan Ortega González
+
+Este es el link de invitacion
+https://discord.com/api/oauth2/authorize?client_id=1207216941908103198&permissions=274878122048&scope=bot
