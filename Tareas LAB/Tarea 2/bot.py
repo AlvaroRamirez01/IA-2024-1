@@ -1,12 +1,15 @@
 import discord 
 import respuestas
+import os
+from dotenv import load_dotenv
 
 async def send_message(message, user_message, is_private):
     response = respuestas.get_response(user_message)
     await message.author.send(response) if is_private else await message.channel.send(response)
     
 def run_discord_bot():
-    TOKEN = 'MTIwNDg1NDU2MjM2ODkxMzQ0OA.G5dlQV.bqf-em5XfA-AmacH4o3FyiDuZKW2w0M2DWhQUY'
+    load_dotenv()
+    TOKEN = os.getenv('DISCORD_TOKEN')
     intents = discord.Intents.default()
     intents.message_content = True
     client = discord.Client(intents=intents)
