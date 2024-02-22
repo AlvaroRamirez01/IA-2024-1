@@ -1,0 +1,27 @@
+> Hola!
+> ¡Hola! ¿quieres conversar acerca de una película o serie o anime?
+> Si, hablame acerca de la anaconda cabezona
+> Por supuesto! Sabías que la pelicula {titulo} salió en el año {año} y fue dirigida por {director}
+
+Opción 1
+> Dime otro dato acerca de la pelicula {titulo}
+
+Opción 2
+> Dime otra pelicula que haya salido en el mismo año
+
+Opción 3
+> Dime otra pelicula con el mismo director
+
+{
+  titulo: "Anaconda Cabezona",
+  año: 2000,
+  director: "Pancho Contreras",
+  imagen: "https://url"
+}
+
+{
+  "Terror": "Horror",
+  "Acción": "Action",
+}
+
+"Aqui está un genero que te puede gustar: " + genero

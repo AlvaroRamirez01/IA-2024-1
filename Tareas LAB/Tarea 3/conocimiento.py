@@ -23,7 +23,7 @@ def conocimientoT():
                 r'.*buen(a|o)s (dias|tardes|noches).*',
             ],
             'respuesta': [
-                'Ah, Hola... ',
+                '¡Hola!, dime una  ',
                 'Hola, soy una IA de conversación.'
             ]
         },
@@ -69,7 +69,7 @@ def conocimientoT():
                 r'.*'
             ],
             'respuesta': [
-                'No te entendí ¿Puedes repetirlo por favor?',
+                'Disculpa, yo solo hablo de peliculas, no conozco ninguna pelicula con ese nombre',
                 'Creo que no tengo información al respecto; lo siento',
                 'Disculpa, no comprendí lo que dices'
             ]

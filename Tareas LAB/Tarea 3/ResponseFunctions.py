@@ -1,6 +1,14 @@
 import os, time, string, random, re
 from random import randrange
 
+def get_pelicula():
+    diccionario = api()
+    respuesta = [
+        f"Por supuesto! Sabías que la pelicula {diccionario.titulo} salió en el año {diccionario.año} y fue dirigida por {diccionario.director}"
+        f"Claro, la pelicula es {diccionario.titulo}\n{diccionario.poster}"
+    ]
+
+    return random.choice(respuesta)
 
 def contar_chiste():
     '''
