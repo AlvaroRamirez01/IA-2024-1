@@ -1,0 +1,22 @@
+materia = "Inteligencia Artificial"
+ayudantes = ["Ayudante1", "Ayudante2", "Ayudante3"]
+url = "https://github.com/AlvaroRamirez01/IA-2024-1"
+
+[profesor]
+nombre = "Nombre del profesor"
+sexo = "M"
+
+[[alumnos]]
+nombre = "Francisco Contreras Ibarra"
+cuenta = "316083786"
+email = "franciscoc.ibarra@ciencias.unam.mx"
+
+[[alumnos]]
+nombre = "José Ethan Ortega González"
+cuenta = "316088327"
+email = "ethan@ciencias.unam.mx"
+
+[[alumnos]]
+nombre = "Alvaro Ramirez López"
+cuenta = "316276355"
+email = "alvaro@ciencias.unam.mx"

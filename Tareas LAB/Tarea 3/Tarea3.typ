@@ -1,3 +1,42 @@
+#import "Plantilla.typ": *
+
+#let datos = toml("datos.toml")
+
+#show: doc => config(
+  autores: datos.alumnos,
+  logo: "imgs/fc.svg",
+  materia: datos.materia,
+  tipo: "Tarea",
+  titulo: "Tarea de laboratorio #3",
+  subtitulo: "Modelando un ChatBot",
+  subtitulo-corto: "Modelando un ChatBot",
+  url: datos.url,
+  fecha: (
+    (titulo: "Entrega", fecha: datetime.today()),
+  ),
+  margen: (
+    (
+      titulo: "Números de cuenta",
+      contenido: {
+        for (nombre, cuenta, _) in datos.alumnos [
+          #nombre\
+          #link("", cuenta)\
+        ]
+      },
+    ),
+    (
+      titulo: "Correos",
+      contenido: {
+        for (nombre, _, email) in datos.alumnos [
+          #nombre\
+          #link("mailto:" + email, email)\
+        ]
+      },
+    ),
+  ),
+  doc,
+)
+
 = Comportamiento por desarrollar
 El objetivo del chatbot es entablar un dialogo con el usuario con la finalidad de dialogar acerca de peliculas y series y brindar datos e información especifíca; como el año, titulo, imagenes, director, genero, entre otros.
 = Los intents que utilizan
