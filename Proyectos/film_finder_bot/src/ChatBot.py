@@ -5,6 +5,7 @@
 import string, re, random, sys
 from Conocimiento import conocimientoT
 from ResponseFunctions import contar_chiste, despedida
+from PyMovieDb import IMDB
 
 class ChatBot:
     """
@@ -13,6 +14,7 @@ class ChatBot:
     """
     contexto = "DEFAULT"
     entrada = ""
+    imdb = IMDB()
 
     def __init__(self):
         """
