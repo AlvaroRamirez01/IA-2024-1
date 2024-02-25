@@ -15,16 +15,22 @@ def conocimientoT():
     :rtype str 
     '''
     conocimiento = [
+        #cada uno de estos es un cado de conocimieto 
         #////////////////////////////////////////////////Bienvenida.
         {
+        
+            #nombre de la intecion que se quiera
             'intent': 'bienvenida',
+            # con mas de 1 expercion regugar par un caso particular 
+            # la exprecion reguar va entre comillas simples 
             'regex': [
                 r'.*hola.*',
                 r'.*buen(a|o)s (dias|tardes|noches).*',
             ],
+            #contine las posibles respuestas
             'respuesta': [
-                '¡Hola!, dime una  ',
-                'Hola, soy una IA de conversación.'
+                '¡Hola Cinéfilo!, ¿de que quieres hablar hoy?',
+                '¡Hola! ¿quieres conversar acerca de una película?',
             ]
         },
         #////////////////////////////////////////////////Chiste.
@@ -62,6 +68,35 @@ def conocimientoT():
                 ''
             ]
         },
+        
+        #////////////////////////////////////////////////
+        {
+            'intent': 'genero',
+            'regex': [
+                r'.*(di|da)me un genero.*',
+                r'.*(recomienda|sugiere)(|me) un genero.*',
+                r'.*que genero prefieres.*',
+            ],
+            'respuesta': [
+                'Aquí está un genero que te puede gustar: ',
+                'El genéro que más me gusta es: ',
+                'Este es el genero que te recomiendo: '
+            ]
+        },
+        
+        #////////////////////////////////////////////////
+        {
+        'intent': 'pelicula',
+        'regex': [
+        r'.*(di|da)me una pelicula.*',
+        r'.*(que|cual) pelicula (me recomiendas|prefieres|te gusta).*',
+        ],
+        'respuesta': [
+            'La pelicula que yo prefiero es: ',
+            'Te recomiendo la pelicula: ',
+            'Una elección de pelicula sería: '
+        ]
+        },
         #////////////////////////////////////////////////Cualquier caso no contemplado.
         {
             'intent': 'desconocido',
@@ -69,7 +104,8 @@ def conocimientoT():
                 r'.*'
             ],
             'respuesta': [
-                'Disculpa, yo solo hablo de peliculas, no conozco ninguna pelicula con ese nombre',
+                'Disculpa, yo solo hablo de peliculas y series.',
+                'No conozco ninguna pelicula o serie con ese nombre.',
                 'Creo que no tengo información al respecto; lo siento',
                 'Disculpa, no comprendí lo que dices'
             ]
