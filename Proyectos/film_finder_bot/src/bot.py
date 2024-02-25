@@ -1,14 +1,16 @@
 import discord 
-import respuestas
 import os
 from dotenv import load_dotenv
+from ChatBot import ChatBot
+
+chatbot = ChatBot()
 
 async def send_message(message, user_message, is_private):
-    response = respuestas.get_response(user_message)
+    response = chatbot.responder(user_message)
     await message.author.send(response) if is_private else await message.channel.send(response)
     
 def run_discord_bot():
-    load_dotenv()
+    load_dotenv(dotenv_path='../config/.env')
     TOKEN = os.getenv('DISCORD_TOKEN')
     intents = discord.Intents.default()
     intents.message_content = True
@@ -16,7 +18,7 @@ def run_discord_bot():
     
     @client.event
     async def on_ready():
-        print(f'{client.user} -------- Film Finder Bot Está vivo --------')
+        print(f'{client.user} Está vivo!!!!')
         
     @client.event
     async def on_message(message):
