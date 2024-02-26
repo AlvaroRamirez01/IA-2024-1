@@ -4,17 +4,15 @@
 
 import string, re, random, sys
 from Conocimiento import conocimientoT
-from ResponseFunctions import contar_chiste, despedida
-from PyMovieDb import IMDB
+from ResponseFunctions import *
 
 class ChatBot:
     """
     Clase ChatBot para simular una conversación 
     sobre videojuegos
-    """
+    """ 
     contexto = "DEFAULT"
     entrada = ""
-    imdb = IMDB()
 
     def __init__(self):
         """
@@ -25,6 +23,7 @@ class ChatBot:
         for caso in conocimiento:
             caso['regex'] = list(map(lambda x:re.compile(x, re.IGNORECASE), caso['regex']))
             self.conocimiento.append(caso)
+        self.base = BaseDeDatos()
 
     def responder(self, user_input):
         '''
@@ -73,6 +72,14 @@ class ChatBot:
         intent = caso['intent']
         if intent == 'bienvenida':
             self.contexto = "BIENVENIDA"
+        elif intent == 'pelicula':
+            self.contexto = 'PELICULA'
+        elif intent == 'repetirpelicula':
+            self.contexto = 'PELICULA'
+        elif intent == 'serie':
+            self.contexto = 'SERIE'
+        elif intent == 'repetirserie':
+            self.contexto = 'SERIE'
         elif intent == 'chiste':
             self.contexto = "CHISTE"
         elif intent == 'desconocido':
@@ -109,6 +116,14 @@ class ChatBot:
         intent = caso['intent']
         if intent == 'chiste':
             return contar_chiste()
+        elif intent == 'pelicula':
+            return self.base.get_pelicula()
+        elif intent == 'repetirpelicula':
+            return self.da_respuesta_apropiada(user_input)
+        elif intent == 'serie':
+            return self.base.get_serie()
+        elif intent == 'repetirserie':
+            return self.da_respuesta_apropiada(user_input)
         elif intent == 'terminar':
             print(despedida(user_input))
             sys.exit(0)
@@ -125,6 +140,10 @@ class ChatBot:
         '''
         if self.contexto == 'CHISTE':
             return 'Aquí va otro: ' + contar_chiste()
+        elif self.contexto == 'PELICULA':
+            return self.base.get_pelicula(otra=True)
+        elif self.contexto == 'SERIE':
+            return self.base.get_serie(otra=True)
         elif self.contexto == 'DEFAULT':
             return '¿Podrías tratar de expresarte mejor?'
         else:
