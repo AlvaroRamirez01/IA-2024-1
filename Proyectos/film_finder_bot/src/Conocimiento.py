@@ -30,7 +30,7 @@ def conocimientoT():
             #contine las posibles respuestas
             'respuesta': [
                 '¡Hola Cinéfilo!, ¿de que quieres hablar hoy?',
-                '¡Hola! ¿quieres conversar acerca de una película?',
+                '¡Hola! ¿quieres conversar acerca de una película o serie?',
             ]
         },
         #////////////////////////////////////////////////Chiste.
@@ -83,19 +83,47 @@ def conocimientoT():
                 'Este es el genero que te recomiendo: '
             ]
         },
-        
-        #////////////////////////////////////////////////
+        #//////////////////////////////////////////////// pelicula
         {
-        'intent': 'pelicula',
-        'regex': [
-        r'.*(di|da)me una pelicula.*',
-        r'.*(que|cual) pelicula (me recomiendas|prefieres|te gusta).*',
-        ],
-        'respuesta': [
-            'La pelicula que yo prefiero es: ',
-            'Te recomiendo la pelicula: ',
-            'Una elección de pelicula sería: '
-        ]
+            'intent': 'pelicula',
+            'regex': [
+                r'.*(di|da)me una pelicula.*',
+                r'.*(que|cual) pelicula (me recomiendas|prefieres|te gusta).*',
+            ],
+            'respuesta': [
+                "",
+            ]
+        },
+        {
+            'intent': 'repetirpelicula',
+            'regex': [
+                r'.*(di|da)me otra pelicula.*',
+                r'.*(que|cual) otra pelicula (me recomiendas|prefieres|te gusta).*',
+            ],
+            'respuesta': [
+                "",
+            ]
+        },
+        #//////////////////////////////////////////////// serie
+        {
+            'intent': 'serie',
+                'regex': [
+                r'.*(di|da)me una serie.*',
+                r'.*(que|cual) serie (me recomiendas|prefieres|te gusta).*',
+            ],
+            'respuesta': [
+                "",
+            ]
+        },
+        {
+            'intent': 'repetirserie',
+            'regex': [
+                r'.*(di|da)me otra serie.*',
+                r'.*(que|cual) otra serie (me recomiendas|prefieres|te gusta).*',
+            ],
+            'respuesta': [
+                "",
+            ]
         },
         #////////////////////////////////////////////////Cualquier caso no contemplado.
         {
