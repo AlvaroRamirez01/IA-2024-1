@@ -1,14 +1,63 @@
 import os, time, string, random, re
 from random import randrange
+import json
+from PyMovieDb import IMDB
 
-def get_pelicula():
-    diccionario = api()
-    respuesta = [
-        f"Por supuesto! Sabías que la pelicula {diccionario.titulo} salió en el año {diccionario.año} y fue dirigida por {diccionario.director}"
-        f"Claro, la pelicula es {diccionario.titulo}\n{diccionario.poster}"
-    ]
+class BaseDeDatos:
+    def __init__(self) -> None:
+        self.imdb = IMDB()
+        #self.peliculas_list = re.findall('"id": "(tt\d{8})"', self.imdb.popular_movies())
+        #self.serie_list = re.findall('"id": "(tt\d{8})"', self.imdb.popular_tv())
 
-    return random.choice(respuesta)
+        self.peliculas_list = json.loads(self.imdb.popular_movies())
+        self.peliculas_list = [id for (id, name, _, _, poster) in 
+                               [dicc.values() for dicc in self.peliculas_list['results']]
+                               if name != 'Lo que ignoramos' and poster != 'image_not_found']
+        self.series_list = json.loads(self.imdb.popular_tv())
+        self.series_list = [id for (id, name, _, _, poster) in 
+                               [dicc.values() for dicc in self.series_list['results']]
+                               if name != 'Fantasmas' and poster != 'image_not_found']
+
+    def get_pelicula(self, otra=False):
+        random_id = random.choice(self.peliculas_list)
+        dicc = json.loads(self.imdb.get_by_id(random_id))
+
+        if 'status' in dicc or not dicc['director']:
+            self.peliculas_list.remove(random_id)
+            return self.get_pelicula(otra)
+
+        respuesta = {
+            "False": [
+                f"Por supuesto! Sabías que la pelicula '{dicc['name']}' salió en el año {dicc['datePublished']} y fue dirigida por {dicc['director'][0]['name']}",
+                f"Claro, la pelicula es {dicc['name']}\n{dicc['poster']}"
+            ],
+            "True": [
+                f"Otra pelicula que me gusta es '{dicc['name']}'",
+            ]
+        }
+
+        return random.choice(respuesta[str(otra)])
+
+    def get_serie(self, otra=False):
+        random_id = random.choice(self.series_list)
+        dicc = json.loads(self.imdb.get_by_id(random_id))
+
+        if 'status' in dicc or not dicc['creator']:
+            self.series_list.remove(random_id)
+            return self.get_serie(otra)
+
+        respuesta = {
+            "False": [
+                f"la fecha es {dicc['date']}" + f"lo creó {dicc['creator']}"
+                f"Por supuesto! Sabías que la serie {dicc['name']} salió en el año {dicc['datePublished']} y fue creada por {dicc['creator'][0]['name']}",
+                f"Claro, la serie es {dicc['name']}\n{dicc['poster']}"
+            ],
+            "True": [
+                f"Otra serie que me gusta es '{dicc['name']}'",
+            ]
+        }
+
+        return random.choice(respuesta[str(otra)])
 
 def contar_chiste():
     '''
