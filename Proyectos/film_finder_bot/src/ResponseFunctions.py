@@ -69,7 +69,7 @@ class BaseDeDatos:
 
         respuesta = [
             f"Por supuesto! ¿Sabías que la serie {self.medio['name']} salió en "
-            + f"la fecha {self.medio['datePublished']} y fue creada por {self.medio['director'][0]['name']}?",
+            + f"la fecha {self.medio['datePublished']} y fue creada por {self.medio['creator'][0]['name']}?",
             f"Claro, la serie es '{self.medio['name']}' y tiene una calificación de {self.medio['rating']['ratingValue']}!\n{self.medio['poster']}",
         ]
 
@@ -138,10 +138,10 @@ class BaseDeDatos:
 
         :return Una respuesta con información de la fecha del medio
         """
-        fecha = self.medio["datePublished"]
+        self.medio["datePublished"]
+        año, mes, dia = re.match("(\d*)-(\d*)-(\d*)", fecha).groups()
 
         if re.match("d(i|í)a|mes|año", user_input):
-            año, mes, dia = re.match("(\d*)-(\d*)-(\d*)", fecha).groups()
             meses = {
                 "01": "Enero",
                 "02": "Febrearo",
@@ -179,6 +179,7 @@ class BaseDeDatos:
                         f"Se estrenó en el año de {año}",
                     ]
         else:
+            fecha = f"el {dia} de {meses[mes]} del {año}"
             return [
                 f"La {self.tema} se estrenó en {fecha}",
             ]

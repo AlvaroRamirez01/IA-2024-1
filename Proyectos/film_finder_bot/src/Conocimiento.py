@@ -20,7 +20,7 @@ def conocimientoT():
             "intent": "bienvenida",
             "regex": [
                 r".*hola.*",
-                r".*buen(a|o)s (dias|tardes|noches).*",
+                r".*buen(a|o)s (d(i|í)as|tardes|noches).*",
             ],
             "respuesta": [
                 "¡Hola Cinéfilo!, ¿de que quieres hablar hoy?",
@@ -37,10 +37,10 @@ def conocimientoT():
         {
             "intent": "pelicula",
             "regex": [
-                r".*(di|da)me una pelicula.*",
-                r".*(que|cual) pelicula (me recomiendas|prefieres|te gusta).*",
-                r"habla(me)? de una pelicula",
-                r"(recomienda|muestra)(me)? una pelicula",
+                r".*(di|da)me una pel(i|í)cula.*",
+                r".*(que|cual) pel(i|í)cula (me recomiendas|prefieres|te gusta).*",
+                r".*habla(me)? de una pel(i|í)cula.*",
+                r".*(recomienda|muestra)(me)? una pel(i|í)cula.*",
             ],
             "respuesta": [
                 "",
@@ -52,8 +52,8 @@ def conocimientoT():
             "regex": [
                 r".*(di|da)me una serie.*",
                 r".*(que|cual) serie (me recomiendas|prefieres|te gusta).*",
-                r"habla(me)? de una serie",
-                r"(recomienda|muestra)(me)? una serie",
+                r".*habla(me)? de una serie.*",
+                r".*(recomienda|muestra)(me)? una serie.*",
             ],
             "respuesta": [
                 "",
@@ -63,10 +63,12 @@ def conocimientoT():
         {
             "intent": "repetir",
             "regex": [
+                r".*qu(e|é) tal otra( \w*)?.*",
                 r".*(di|da)me otra( \w*)?.*",
                 r".*(que|cual) otra( \w*)? (me recomiendas|prefieres|te gusta).*",
-                r"habla(me)? de otra( \w*)?",
-                r"(recomienda|muestra)(me)? otra( \w*)?",
+                r".*habla(me)? de otra( \w*)?.*",
+                r".*(recomienda|muestra)(me)? otra( \w*)?.*",
+                r".*me (recomienda|muestra)(s)? otra( \w*)?.*",
             ],
             "respuesta": [
                 "",
@@ -76,13 +78,13 @@ def conocimientoT():
         {
             "intent": "pregunta",
             "regex": [
-                r".*cuando (sali(o|ó)| se (estren(o|ó)|public(o|ó))).*",
+                r".*cu(a|á)ndo (sali(o|ó)| se (estren(o|ó)|public(o|ó))).*",
                 r".*en (qu(e|é)|cu(a|á)l) (d(i|í)a|mes|año)( sali(o|ó)| se (estren(o|ó)|public(o|ó)))?.*",
                 r".*(cu(a|á)l|qui(e|é)n) (fue|es) el (director|creador).*",
                 r".*cu(a|á)les son los generos.*",
                 r".*de que generos? (son|es).*",
-                r".*(cuantas|que cantidad de) personas lo calificaron.*",
-                r".*(cuanta|que) calificaci(o|ó)n (tiene|tuvo).*",
+                r".*(cu(a|á)ntas|qu(e|é) cantidad de) personas lo calificaron.*",
+                r".*(cu(a|á)nta|qu(e|é)) calificaci(o|ó)n (tiene|tuvo).*",
             ],
             "respuesta": [
                 "",
