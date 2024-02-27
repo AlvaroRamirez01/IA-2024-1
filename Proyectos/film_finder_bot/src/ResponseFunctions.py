@@ -120,7 +120,7 @@ class BaseDeDatos:
             self._get_generos,
             self._get_rating,
         ]
-        prefijos = ["¡Por supuesto!", "¡Claro!", "¡De acuerdo!", "¡Seguro!", ""]
+        prefijos = ["¡Por supuesto! ", "¡Claro! ", "¡De acuerdo! ", "¡Seguro! ", ""]
 
         respuestas = [
             funcion(user_input)
@@ -130,7 +130,7 @@ class BaseDeDatos:
         respuestas = [random.choice(respuesta) for respuesta in respuestas]
 
         respuesta = respuesta[0] if len(respuestas) == 0 else " y ".join(respuestas)
-        return f"{random.choice(prefijos)}.{respuesta.capitalize()}"
+        return f"{random.choice(prefijos)}{respuesta.capitalize()}"
 
     def _get_fecha(self, user_input):
         """
@@ -245,13 +245,13 @@ class BaseDeDatos:
         """
         rating = self.medio["rating"]
         if re.match(".*personas.*", user_input):
-            rating = rating["ratingCount"]
+            rating = rating['ratingCount']
             return [
                 f"Al rededor de {rating} calificaron la {self.tema}",
                 f"Hubo {rating} personas que calificaron la {self.tema}",
             ]
         elif re.match(".*tiene.*", user_input):
-            rating = rating["ratingValue"]
+            rating = rating['ratingValue']
             return [
                 f"La {self.tema} tiene una calificación de {rating}",
                 f"¡Tiene una calificación de {rating}!",
