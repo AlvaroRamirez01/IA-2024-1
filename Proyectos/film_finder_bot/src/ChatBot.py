@@ -1,16 +1,14 @@
-#------------------------------------------------#
-#  ChatBot.py                                     #
-#------------------------------------------------#
-
 import string, re, random, sys
 from Conocimiento import conocimientoT
 from ResponseFunctions import *
 
+
 class ChatBot:
     """
-    Clase ChatBot para simular una conversación 
+    Clase ChatBot para simular una conversación
     sobre videojuegos
-    """ 
+    """
+
     contexto = "DEFAULT"
     entrada = ""
 
@@ -18,15 +16,17 @@ class ChatBot:
         """
         ChatBot consta de una base de conocimiento
         representada como una lista de casos o intents.
-        """ 
-        self.conocimiento = [] 
+        """
+        self.conocimiento = []
         for caso in conocimiento:
-            caso['regex'] = list(map(lambda x:re.compile(x, re.IGNORECASE), caso['regex']))
+            caso["regex"] = list(
+                map(lambda x: re.compile(x, re.IGNORECASE), caso["regex"])
+            )
             self.conocimiento.append(caso)
         self.base = BaseDeDatos()
 
     def responder(self, user_input):
-        '''
+        """
         Flujo básico para identificar coincidencias de intents para responder al usuario.
         Con el texto del usuario como parámetro, los paso a realizarse son:
         1. Encontrar el caso de la base de conocimiento usando expresiones regulares
@@ -38,55 +38,57 @@ class ChatBot:
         :param str user_input: El texto escrito por el usuario
         :return Un texto de respuesta al usuario
         :rtype: str
-        '''
+        """
         caso = self.encontrar_intent(user_input)
-        self.identifica_contexto(caso) 
+        self.identifica_contexto(caso)
         informacion_adicional = self.acciones(caso, user_input)
-        respuesta = self.convertir_respuesta(random.choice(caso['respuesta']), caso, user_input)
-        respuesta_final = (respuesta + '\n' + informacion_adicional).strip() 
+        respuesta = self.convertir_respuesta(
+            random.choice(caso["respuesta"]), caso, user_input
+        )
+        respuesta_final = (respuesta + "\n" + informacion_adicional).strip()
         return respuesta_final
 
     def encontrar_intent(self, user_input):
-        '''
+        """
         Encuentra el caso o intent asociado en la base de conocimiento
 
         :param str user_input: El texto escrito por el usuario
         :return El diccionario que representa el caso o intent deseado
         :rtype: str
-        '''
+        """
         for caso in self.conocimiento:
-            for regularexp in caso['regex']:
+            for regularexp in caso["regex"]:
                 match = regularexp.match(user_input)
                 if match:
-                    self.regexp_selected = regularexp 
+                    self.regexp_selected = regularexp
                     return caso
         return {}
 
     def identifica_contexto(self, caso):
-        '''
+        """
         Asegura que el contexto sea el adecuado para que
         ChatBot responde de manera coherente
 
-        :param dict caso: El intent del cual se solicita información 
-        '''
-        intent = caso['intent']
-        if intent == 'bienvenida':
+        :param dict caso: El intent del cual se solicita información
+        """
+        intent = caso["intent"]
+        if intent == "bienvenida":
             self.contexto = "BIENVENIDA"
-        elif intent == 'pelicula':
-            self.contexto = 'PELICULA'
-        elif intent == 'repetirpelicula':
-            self.contexto = 'PELICULA'
-        elif intent == 'serie':
-            self.contexto = 'SERIE'
-        elif intent == 'repetirserie':
-            self.contexto = 'SERIE'
-        elif intent == 'chiste':
-            self.contexto = "CHISTE"
-        elif intent == 'desconocido':
-            self.contexto = "DEFAULT"  
+        elif intent == "pelicula":
+            self.base.tema = "pelicula"
+            self.contexto = "PELICULA"
+        elif intent == "serie":
+            self.base.tema = "serie"
+            self.contexto = "SERIE"
+        elif intent == "repetir":
+            self.contexto = "REPETIR"
+        elif intent == "pregunta":
+            self.contexto = "PREGUNTA"
+        elif intent == "desconocido":
+            self.contexto = "DEFAULT"
 
     def convertir_respuesta(self, respuesta, caso, user_input):
-        '''
+        """
         Cambia los textos del tipo %1, %2, %3, etc., por su correspondiente propiedad
         identificada en los grupos parentizados de la expresión regular asociada.
 
@@ -95,16 +97,14 @@ class ChatBot:
         :param str user_input: El texto escrito por el usuario
         :return La respuesta con el cambio de parámetros
         :rtype: str
-        '''
+        """
         respuesta_cambiada = respuesta
-        intent = caso['intent']
+        intent = caso["intent"]
         match = self.regexp_selected.match(user_input)
-        if intent == 'estado':
-            respuesta_cambiada = respuesta_cambiada.replace('%1', match.group(1))
         return respuesta_cambiada
 
     def acciones(self, caso, user_input):
-        '''
+        """
         Obtiene información adicional necesaria para dar una respuesta coherente al usuario.
         El tipo de acciones puede ser una consulta de información, revisar base de datos, generar
         un código, etc. y el resultado final es expresado como una cadena de texto
@@ -112,66 +112,63 @@ class ChatBot:
         :param dict caso: El caso o intent asociado a la respuesta
         :return Texto que representa información adicional para complementar la respuesta al usuario
         :rtype: str
-        '''
-        intent = caso['intent']
-        if intent == 'chiste':
-            return contar_chiste()
-        elif intent == 'pelicula':
+        """
+        intent = caso["intent"]
+        if intent == "pelicula":
             return self.base.get_pelicula()
-        elif intent == 'repetirpelicula':
-            return self.da_respuesta_apropiada(user_input)
-        elif intent == 'serie':
+        elif intent == "serie":
             return self.base.get_serie()
-        elif intent == 'repetirserie':
+        elif intent == "repetir":
             return self.da_respuesta_apropiada(user_input)
-        elif intent == 'terminar':
-            print(despedida(user_input))
+        elif intent == "pregunta":
+            return self.da_respuesta_apropiada(user_input)
+        elif intent == "terminar":
+            print(despedida())
             sys.exit(0)
-        return ''
-
+        return ""
 
     def da_respuesta_apropiada(self, user_input):
-        '''
+        """
         Devuelve la respuesta según el contexto en el que se encuentre
 
         :param str user_input: El texto escrito por el usuario
         :return Texto que representa la respuesta
         :rtype str
-        '''
-        if self.contexto == 'CHISTE':
-            return 'Aquí va otro: ' + contar_chiste()
-        elif self.contexto == 'PELICULA':
-            return self.base.get_pelicula(otra=True)
-        elif self.contexto == 'SERIE':
-            return self.base.get_serie(otra=True)
-        elif self.contexto == 'DEFAULT':
-            return '¿Podrías tratar de expresarte mejor?'
+        """
+        if self.contexto == "REPETIR":
+            return self.base.repite_info()
+        elif self.contexto == "PREGUNTA":
+            return self.base.get_info(user_input)
+        elif self.contexto == "DEFAULT":
+            return "¿Podrías tratar de expresarte mejor?"
         else:
-            return '¿Podrías tratar de expresarte mejor?'
+            return "¿Podrías tratar de expresarte mejor?"
 
-#---------------------------------------#
+
+# ---------------------------------------#
 #  Base de conocimiento                 #
-#---------------------------------------#
+# ---------------------------------------#
 conocimiento = conocimientoT()
 
 
-#---------------------------------------#
+# ---------------------------------------#
 #  Interfaz de texto                    #
-#---------------------------------------#
+# ---------------------------------------#
 def chatBot():
-    input_usuario = ''
-    asistente = ChatBot()    
-    while input_usuario != ' ':
+    input_usuario = ""
+    asistente = ChatBot()
+    while input_usuario != " ":
         try:
-            input_usuario = input('>> ')            
+            input_usuario = input(">> ")
         except EOFError:
-            print('Saliendo...')
+            print("Saliendo...")
             sys.exit(0)
-        except KeyboardInterrupt: 
-            print('Saliendo...')
+        except KeyboardInterrupt:
+            print("Saliendo...")
             sys.exit(0)
         else:
             print(asistente.responder(input_usuario))
+
 
 if __name__ == "__main__":
     chatBot()
