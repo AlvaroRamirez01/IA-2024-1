@@ -10,7 +10,8 @@ public class ComportamientoAutomatico : MonoBehaviour {
     //Enum para los estados
     public enum State {
         MAPEO,
-        DFS
+        DFS, 
+        CARGA
     }
 
     private State currentState;
@@ -18,7 +19,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
 	private Actuadores actuador;
 	private Mapa mapa;
     private Vertice verticeActual, verticeDestino;
-    public bool fp = true, look;
+    public bool fp = true, look, pila;
     public Vector3 destino;
 
 
@@ -90,6 +91,8 @@ public class ComportamientoAutomatico : MonoBehaviour {
             }
         }
     }
+
+    
 
     void UpdateDFS(){
         if(!sensor.FrenteLibre()){
