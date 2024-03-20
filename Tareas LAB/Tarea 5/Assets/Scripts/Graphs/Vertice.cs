@@ -10,7 +10,7 @@ public class Vertice{
     public Vertice camino;
     public Vector3 posicion;
     public float f,g,h; //para que funcione A*
-    public bool visitado;
+    //public bool visitado;
 
 
     public Vertice(int newId, Vector3 newPos) {

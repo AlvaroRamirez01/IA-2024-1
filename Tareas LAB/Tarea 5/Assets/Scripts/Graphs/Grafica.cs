@@ -29,12 +29,30 @@ public class Grafica{
 
 	float distancia(Vertice a, Vertice b) {
 		//Completar distancia entre dos vectores utilizando Vector3.distance()
-		return 0;
+		float dx = a.posicion.x - b.posicion.x;
+		float dy = a.posicion.y - b.posicion.y;
+		float dz = a.posicion.z - b.posicion.z;
+		float dist = dx * dx + dy * dy + dz * dz;
+		return (dist);
 	}
 
 	int menorF(List<Vertice> l) {
 		//Coompletar
-		return 0;
+		float menorf = 0;
+		int count = 0;
+		int indice = 0;
+
+		menorf = l[0].f;
+		for (int i = 0; i < l.Count; i++)
+		{
+			if (l[i].f <= menorf)
+			{
+				menorf = l[i].f;
+				indice = count;
+			}
+			count++;
+		} 
+		return indice;
 	}
 
 	//M�todo que da una representaci�n escrita de la gr�fica.
