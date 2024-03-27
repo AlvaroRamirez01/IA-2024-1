@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b0b22a61736ae3dea1d5ec334b22d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  longitudDeRayo: 1.6
+  longitudDeRayo: 1.8
   radio: 0.5
   obstaculos:
     serializedVersion: 2
@@ -2193,7 +2193,10 @@ MonoBehaviour:
   fp: 1
   look: 0
   pila: 0
+  path: 0
   destino: {x: 0, y: 0, z: 0}
+  s: 0
+  indiceCamino: 0
 --- !u!114 &1902013081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2212,7 +2215,7 @@ MonoBehaviour:
   cont: -1
   tam: 0
   canSetNode: 1
-  granularidad: 1.6
+  granularidad: 1.8
 --- !u!1 &1958427751
 GameObject:
   m_ObjectHideFlags: 0
