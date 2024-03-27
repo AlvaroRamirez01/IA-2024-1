@@ -1451,7 +1451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b0b22a61736ae3dea1d5ec334b22d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  longitudDeRayo: 1.5
+  longitudDeRayo: 1.85
   radio: 0.5
   obstaculos:
     serializedVersion: 2
@@ -2215,7 +2215,7 @@ MonoBehaviour:
   cont: -1
   tam: 0
   canSetNode: 1
-  granularidad: 1.5
+  granularidad: 1.85
 --- !u!1 &1958427751
 GameObject:
   m_ObjectHideFlags: 0
