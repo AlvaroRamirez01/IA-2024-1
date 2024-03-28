@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "tarea.sln"
+    "dotnet.defaultSolution": "Aspiradora.sln"
 }
