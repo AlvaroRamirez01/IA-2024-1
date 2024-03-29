@@ -195,7 +195,19 @@ public class ComportamientoAutomatico : MonoBehaviour {
       if (Vector3.Distance(sensor.Ubicacion(), camino[indiceCamino].posicion) >=
           0.04f) {
         transform.LookAt(camino[indiceCamino].posicion);
-        actuador.Adelante();
+        if (sensor.FrenteLibre()) {
+            actuador.Adelante();
+        } else {
+            if (sensor.IzquierdaLibre()) {
+                actuador.GirarIzquierda();
+                actuador.Adelante();
+            }
+            if (sensor.DerechaLibre()) {
+                actuador.GirarDerecha();
+                actuador.Adelante();
+            }
+        }
+        
       } else {
         actualCamino = camino[indiceCamino];
         indiceCamino--;
