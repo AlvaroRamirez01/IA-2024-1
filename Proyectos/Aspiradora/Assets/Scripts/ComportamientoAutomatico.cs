@@ -42,6 +42,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
     // si la bateria esta por debajo del 40%, se cambia al estado ASTARCARGA
     if (sensor.Bateria() < 30) {
       currentState = State.ASTARCARGA;
+      actuador.vel = 4;
     }
     switch (currentState) {
     case State.MAPEO:
@@ -73,6 +74,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
     // con la variable fp controlaremos si debemos sacar un vertice de la pila,
     // los tres vertices que coloca nuestra aspiradora al frente (2), a la
     // izquierda (1) y la derecha (3)
+    actuador.vel = 2;
     if (fp) {
       if (!mapa.popStack(
               out verticeDestino)) { // con cada popStack() sacamos el nodo
@@ -123,6 +125,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
   void UpdateDFS() {
     if (!sensor.FrenteLibre()) {
       actuador.Detener();
+      actuador.Atras();
     }
     if (sensor.IzquierdaLibre()) {
       mapa.ColocarNodo(1);
