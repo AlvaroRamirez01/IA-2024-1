@@ -125,7 +125,6 @@ public class ComportamientoAutomatico : MonoBehaviour {
   void UpdateDFS() {
     if (!sensor.FrenteLibre()) {
       actuador.Detener();
-      actuador.Atras();
     }
     if (sensor.IzquierdaLibre()) {
       mapa.ColocarNodo(1);
