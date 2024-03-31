@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿// para interactuar con el sistema
+using System;
+using System.Diagnostics;
+using System.Threading;
+using System.Collections;
 using System.Collections.Generic;
 // using System.Numerics;
 using TMPro;
@@ -25,6 +29,12 @@ public class ComportamientoAutomatico : MonoBehaviour {
   public int indiceCamino = 0;
   public List<Vertice> camino = new List<Vertice>();
   GameObject basura;
+  // conometro
+  Stopwatch stopwatch = new Stopwatch();
+  // Variable donde guardaremos el estado de la memoria antes de ejecutar el algoritmo
+  long memoryBefore = GC.GetTotalMemory(true);
+  // Variable donde guardaremos el estado de la memoria despues despues de avanzar al un vertice
+  long memoryAfter;
 
   void Start() {
     SetState(State.DFS);
@@ -36,6 +46,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
     destino = new Vector3(0.0f, 0.0f, 0.0f);
     inicio = verticeActual;
     final = verticeActual;
+    stopwatch.Start();
   }
 
   void FixedUpdate() {
@@ -76,8 +87,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
     // izquierda (1) y la derecha (3)
     actuador.vel = 2;
     if (fp) {
-      if (!mapa.popStack(
-              out verticeDestino)) { // con cada popStack() sacamos el nodo
+      if (!mapa.popStack(out verticeDestino)) { // con cada popStack() sacamos el nodo
         SetState(State.DFS); // y con SetState() cambiamos el estado  DFS y se
                              // llama a la funcion UpdateDFS()
         return;              // asi colocando los nodos
@@ -93,15 +103,28 @@ public class ComportamientoAutomatico : MonoBehaviour {
       }
       if (Vector3.Distance(sensor.Ubicacion(), destino) >= 0.04f) {
         actuador.Adelante();
-      } else {
+        // Guardar el uso de la memoria después de visitar el vertice
+        memoryAfter = GC.GetTotalMemory(true);
+        // Detener el cronómetro
+        stopwatch.Stop();
+        // Calcular el tiempo transcurrido
+        TimeSpan elapsedTime = stopwatch.Elapsed;
+        // Calcular el consumo de memoria
+        long memoryUsed = memoryAfter - memoryBefore;
+        // Obtener el consumo de CPU
+        float cpuUsage = Process.GetCurrentProcess().TotalProcessorTime.Ticks / (float)Stopwatch.Frequency;
+        // Mostrar resultados
+        UnityEngine.Debug.Log("Tiempo de ejecución: " + elapsedTime);
+        UnityEngine.Debug.Log("Consumo de RAM: " + memoryUsed + " bytes");
+        UnityEngine.Debug.Log("Consumo de CPU: " + cpuUsage + " segundos de CPU");
+        } else {
         verticeActual = verticeDestino;
         fp = true;
         look = false;
         SetState(State.DFS);
       }
     } else {
-      Debug.Log(Vector3.Distance(sensor.Ubicacion(),
-                                 verticeActual.padre.posicion) >= 0.04f);
+      // Debug.Log(Vector3.Distance(sensor.Ubicacion(),verticeActual.padre.posicion) >= 0.04f);
       if (Vector3.Distance(sensor.Ubicacion(), verticeActual.padre.posicion) >=
           0.04f) {
         if (!look) {
@@ -117,7 +140,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
 
     // esto lo usamos para limpiar basura
     if (sensor.TocandoBasura()) {
-      Debug.Log("Se esta tocando la basura");
+      // Debug.Log("Se esta tocando la basura");
       actuador.Limpiar(sensor.GetBasura());
     }
   }
@@ -142,7 +165,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
   }
 
   void UpdateAstarCarga() {
-    Debug.Log("de regeso con A*");
+    // Debug.Log("de regeso con A*");
     // si la lista de camino esta vacia
     if (camino.Count == 0) {
       // se busca el camino a la base de carga utilizando A*
@@ -150,7 +173,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
         // se guarda la lista de camino en la variable camino
         camino = mapa.mapa.camino;
       } else {
-        Debug.Log("No hay camino");
+        // Debug.Log("No hay camino");
       }
     } else {
       // si no se ha llegado al final del camino
@@ -178,7 +201,7 @@ public class ComportamientoAutomatico : MonoBehaviour {
   }
 
   void cargando() {
-    Debug.Log("CARGANDO");
+    // Debug.Log("CARGANDO");
     // si el nivel de bateria es mayor al 90%
     if (sensor.Bateria() > 90) {
       SetState(State.CONTINUARMAPEANDO);
