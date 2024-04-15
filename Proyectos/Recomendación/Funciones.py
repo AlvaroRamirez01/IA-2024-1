@@ -79,3 +79,14 @@ def matchPreference(preferencia, conocimiento):
     recomendado = [angulo(preferencia, fila[1:]) for fila in conocimiento]
     return nombres[np.argmin(recomendado)]
 
+base = leerBase()
+
+# Dune: Part One
+preferencia = [
+    0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+]
+
+# Star Wars
+# preferencia = [
+#     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+# ]
