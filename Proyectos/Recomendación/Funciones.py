@@ -18,6 +18,9 @@ def leerBase():
             datos.append(newLinea)
     finally:
         archivo.close()
+    datos = [
+        [int(elem) if i != 0 else elem for i, elem in enumerate(fila)] for fila in datos
+    ]
     return datos
 
 
