@@ -67,10 +67,15 @@ def matchUserInput(preferencia, c):
     return pref
 
 
+# Calcular el angulo minimo entre el input, y la base de conocimiento
 def matchPreference(preferencia, conocimiento):
-    recomendado = ""
-    """
-	Calcular el angulo minimo entre el input, y la base de conocimiento
-	"""
-    return recomendado
+    def angulo(v1, v2):
+        unit_vec = lambda v: v / np.linalg.norm(v)
+        v1 = unit_vec(v1)
+        v2 = unit_vec(v2)
+        return np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0))
+
+    nombres = [fila[0] for fila in conocimiento]
+    recomendado = [angulo(preferencia, fila[1:]) for fila in conocimiento]
+    return nombres[np.argmin(recomendado)]
 
