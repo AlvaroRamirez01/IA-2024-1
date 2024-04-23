@@ -1,43 +1,25 @@
+import csv
 import numpy as np
-import re, random
 
 
-def leerBase():
+def read_csv(archivo: str, columna: str):
     """
-    Funcion que leer una base de conocimiento y la transforma en un arreglo de filas
+    Funcion que leer una base de conocimiento y la transforma en un diccionario.
+    El diccionario tiene una lista con los campos, el nombre de las peliculas y
+    una matriz con los datos
     """
-    datos = []
-    archivo = open(
-        "base-de-conocimiento.csv", "r"
-    )  # Reemplaza 'nombre_archivo.txt' con la ruta y nombre de tu archivo
-    try:
-        next(archivo)
-        for linea in archivo:
-            aux = linea.rstrip("\n")
-            newLinea = aux.split(",")
-            datos.append(newLinea)
-    finally:
-        archivo.close()
-    datos = [
-        [int(elem) if i != 0 else elem for i, elem in enumerate(fila)] for fila in datos
-    ]
-    return datos
 
+    with open(archivo, "r") as file:
+        reader = csv.DictReader(file)
+        datos = [fila for fila in reader]
 
-def cabeceras():
-    """
-    Funcion que regresa la primera fila de un archivo de conocimiento.
-    """
-    archivo = open(
-        "base-de-conocimiento.csv", "r"
-    )  # Reemplaza 'nombre_archivo.txt' con la ruta y nombre de tu archivo
-    try:
-        aux = archivo.readline().rstrip("\n").split(",")
-        aux = aux[1:]
-    finally:
-        archivo.close()
-    # print(aux)
-    return aux
+        return {
+            "campos": reader.fieldnames,
+            "nombres": [fila[columna] for fila in datos],
+            "datos": np.array(
+                [list(list(fila.values())[1:]) for fila in datos], dtype=int
+            ),
+        }
 
 
 def obtenerDF(conocimiento):
@@ -70,23 +52,16 @@ def matchUserInput(preferencia, c):
 # Calcular el angulo minimo entre el input, y la base de conocimiento
 def matchPreference(preferencia, conocimiento):
     def angulo(v1, v2):
-        unit_vec = lambda v: v / np.linalg.norm(v)
+        def unit_vec(v):
+            return v / np.linalg.norm(v)
+
         v1 = unit_vec(v1)
         v2 = unit_vec(v2)
         return np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0))
 
-    nombres = [fila[0] for fila in conocimiento]
-    recomendado = [angulo(preferencia, fila[1:]) for fila in conocimiento]
-    return nombres[np.argmin(recomendado)]
+    recomendado = [angulo(preferencia, fila) for fila in conocimiento["datos"]]
+    return conocimiento["nombres"][np.argmin(recomendado)]
 
-base = leerBase()
 
-# Dune: Part One
-preferencia = [
-    0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-]
-
-# Star Wars
-# preferencia = [
-#     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-# ]
+base = read_csv("base-de-conocimiento.csv", "Pelicula")
+usuarios = read_csv("usuarios.csv", "Usuario")
