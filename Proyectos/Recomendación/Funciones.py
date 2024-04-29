@@ -1,5 +1,6 @@
 import csv
 import numpy as np
+import random
 
 from itertools import islice
 
@@ -58,5 +59,17 @@ def matchPreference(preferencia, conocimiento):
     return conocimiento["nombres"][np.argmin(recomendado)]
 
 
-base = read_csv("base-de-conocimiento.csv", "Pelicula")
-usuarios = read_csv("usuarios.csv", "Usuario")
+def main():
+    base_completa = read_csv("base-de-conocimiento.csv", "Pelicula")
+    base_reducida = read_csv("base-de-conocimiento-reducida.csv", "Pelicula")
+    usuarios = read_csv("usuarios.csv", "Usuario")
+    usuario = random.choice(usuarios["datos"])
+    # Usuario usado en el documento
+    # usuario = np.array(
+    #     [ 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, -1, 0, 1, 0, 0, 0, -1, 0, 0, 0, -1, -1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, -1, 0, 0, 0, 0, 0, 0, 1, -1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, -1, 0, -1, 1, 0, -1, 1, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, -1, 1, -1, 1, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 1, -1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 1, -1, 1, 0, 1, 0, 0, -1, 1, 0, 1, 0, -1, 0, 0, -1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 1, 1, 1, ]
+    # )
+    print(f"base completa: {recomendacion_contenido(base_completa, usuario)}")
+    print(f"base reducida: {recomendacion_contenido(base_reducida, usuario)}")
+
+
+main()
