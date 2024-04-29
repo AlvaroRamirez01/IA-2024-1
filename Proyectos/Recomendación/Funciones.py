@@ -1,6 +1,8 @@
 import csv
 import numpy as np
 
+from itertools import islice
+
 
 def read_csv(archivo: str, columna: str):
     """
@@ -26,39 +28,20 @@ def normalizar(conocimiento):
     return [[campo / np.sqrt(sum(fila)) for campo in fila] for fila in conocimiento]
 
 
-def matchUserInput(preferencia, c):
-    pref = []
-    for text in c:
-        found = False
-        for r in preferencia:
-            if r.strip().lower() == text.strip().lower():
-                # print("MATCH:", r)
-                pref.append(1)
-                found = True
-                break
-        if not found:
-            pref.append(0)
-    return pref
-
-
-def prueba(conocimiento, usuario):
-    datos = conocimiento["datos"]
+def recomendacion_contenido(conocimiento, usuario, n=10):
+    datos, nombres = conocimiento["datos"], conocimiento["nombres"]
     normalizada = np.array(normalizar(datos))
     interes = [normalizada[:, i] @ usuario for i in range(normalizada.shape[1])]
     df = [sum(datos[:, i]) for i in range(datos.shape[1])]
     idf = [np.log10(datos.shape[0] / n) if n != 0 else 0 for n in df]
-    predicciones = [(fila * idf) @ interes for fila in normalizada]
-    predicciones = [
+    predicciones = ((fila * idf) @ interes for fila in normalizada)
+    predicciones = (
         (i, pred, u) for (i, pred), u in zip(enumerate(predicciones), usuario) if u == 0
-    ]
-
-    # prediccion, _, _ = max(predicciones, key=lambda t: t[1])
-    #
-    # return conocimiento["nombres"][prediccion]
-
+    )
     predicciones = sorted(predicciones, key=lambda t: t[1], reverse=True)
+    predicciones = (nombres[prediccion] for prediccion, _, _ in predicciones)
 
-    return [conocimiento["nombres"][prediccion] for prediccion, _, _ in predicciones]
+    return list(islice(predicciones, n))
 
 
 # Calcular el angulo minimo entre el input, y la base de conocimiento
